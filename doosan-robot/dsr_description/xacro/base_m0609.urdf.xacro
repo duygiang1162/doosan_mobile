@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="m0609" >
+
+  <xacro:arg name="color"   default="white"/>
+  <xacro:arg name="gripper" default="robotiq_2f"/>
+
+
+  <xacro:property name="cr" value="$(arg color)"/>
+  <xacro:property name="gr" value="$(arg gripper)"/>
+  <xacro:if value="${cr == 'white'}">
+     <xacro:include filename="$(find dsr_description)/xacro/macro.m0609.white.xacro" />
+  </xacro:if>
+  <xacro:if value="${cr == 'blue'}">
+     <xacro:include filename="$(find dsr_description)/xacro/macro.m0609.blue.xacro" />
+  </xacro:if>
+
+  <xacro:include filename="$(find dsr_description)/xacro/camera.xacro" />
+
+  <xacro:m0609 namespace="$(arg namespace)"/>
+
+  <link name="world" />
+
+
+
+  <!-- <xacro:if value="${gr == 'robotiq_2f'}"> -->
+     <xacro:include filename="$(find dsr_description)/xacro/robotiq_2f.urdf.xacro" />
+     
+  <!-- </xacro:if> -->
+
+  <!-- World fixed joint-->
+  <joint name="world_fixed" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="world"/>
+    <child link="mobile_base"/>
+    <!-- <child link="base_0"/> -->
+
+  </joint>
+
+
+
+    <!--   xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  Including Mobile Base  xxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <link name="mobile_base">
+		<inertial>
+		  <mass value="3.722"/>
+		  <origin xyz="-1.2e-05 -6e-05 0.050723"/>
+			<inertia ixx="0.011" ixy="-7.19e-06" ixz="-1.94e-06" iyy="0.011" iyz="4.9e-06" izz="0.014"/>
+		  </inertial>
+		<visual>
+			<origin rpy="0 0 0" xyz="0 0 0"/>
+			<geometry>
+			  <mesh filename="package://dsr_description/meshes/base_mobile/base_doosan.STL" />
+			  <!-- scale="0.001 0.001 0.001"/> -->
+			</geometry>
+			<material name="dr_gray"/>
+		  </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://dsr_description/meshes/base_mobile/base_doosan.STL" />
+        </geometry>
+      </collision>
+		</link>
+	
+	
+		<!-- <link name="base_world"/> -->
+		<joint name="fixed" type="fixed">
+		  <parent link="mobile_base"/>
+		  <child link="base_0"/>
+        <origin
+      xyz="-0.15008 -0.0048392 0.81535"
+      rpy="0 0 0" />
+    <axis
+      xyz="0 0 0" />
+		</joint>
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</robot>

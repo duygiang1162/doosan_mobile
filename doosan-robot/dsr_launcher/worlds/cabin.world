@@ -1,0 +1,985 @@
+<sdf version='1.7'>
+  <world name='default'>
+    <light name='sun' type='directional'>
+      <cast_shadows>1</cast_shadows>
+      <pose>0 0 10 0 -0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 0.1 -0.9</direction>
+      <spot>
+        <inner_angle>0</inner_angle>
+        <outer_angle>0</outer_angle>
+        <falloff>0</falloff>
+      </spot>
+    </light>
+    <model name='ground_plane'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <surface>
+            <contact>
+              <collide_bitmask>65535</collide_bitmask>
+              <ode/>
+            </contact>
+            <friction>
+              <ode>
+                <mu>100</mu>
+                <mu2>50</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='visual'>
+          <cast_shadows>0</cast_shadows>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Grey</name>
+            </script>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+    </model>
+    <physics type='ode'>
+      <real_time_update_rate>1000</real_time_update_rate>
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <ode>
+        <solver>
+          <type>quick</type>
+          <iters>150</iters>
+          <precon_iters>0</precon_iters>
+          <sor>1.4</sor>
+          <use_dynamic_moi_rescaling>1</use_dynamic_moi_rescaling>
+        </solver>
+        <constraints>
+          <cfm>1e-05</cfm>
+          <erp>0.2</erp>
+          <contact_max_correcting_vel>2000</contact_max_correcting_vel>
+          <contact_surface_layer>0.01</contact_surface_layer>
+        </constraints>
+      </ode>
+    </physics>
+    <scene>
+      <ambient>0.4 0.4 0.4 1</ambient>
+      <background>0.7 0.7 0.7 1</background>
+      <shadows>1</shadows>
+    </scene>
+    <gui fullscreen='0'>
+      <camera name='user_camera'>
+        <pose>1.27321 -0.044484 7.27374 1e-05 1.5698 2.93221</pose>
+        <view_controller>orbit</view_controller>
+        <projection_type>perspective</projection_type>
+      </camera>
+    </gui>
+    <gravity>0 0 -9.8</gravity>
+    <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
+    <atmosphere type='adiabatic'/>
+    <wind/>
+    <spherical_coordinates>
+      <surface_model>EARTH_WGS84</surface_model>
+      <latitude_deg>0</latitude_deg>
+      <longitude_deg>0</longitude_deg>
+      <elevation>0</elevation>
+      <heading_deg>0</heading_deg>
+    </spherical_coordinates>
+    <model name='dsr01'>
+      <joint name='world_fixed' type='fixed'>
+        <pose relative_to='__model__'>0 0 0 0 -0 0</pose>
+        <parent>world</parent>
+        <child>mobile_base</child>
+      </joint>
+      <link name='mobile_base'>
+        <pose relative_to='world_fixed'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>-0.07175 -0.014327 0.441768 0 -0 0</pose>
+          <mass>7.002</mass>
+          <inertia>
+            <ixx>1.3918</ixx>
+            <ixy>-0.0143884</ixy>
+            <ixz>0.232993</ixz>
+            <iyy>1.38519</iyy>
+            <iyz>0.109073</iyz>
+            <izz>0.118735</izz>
+          </inertia>
+        </inertial>
+        <collision name='mobile_base_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/duygiang/doosan_ws/src/doosan-robot/dsr_description/meshes/base_mobile/base_doosan.STL</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <collision name='mobile_base_fixed_joint_lump__base_0_collision_1'>
+          <pose>-0.15008 -0.004839 0.81535 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>/home/duygiang/doosan_ws/src/doosan-robot/dsr_description/meshes/m0609_collision/MF0609_0_0.dae</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode>
+                <kp>1e+06</kp>
+                <kd>100</kd>
+                <max_vel>1</max_vel>
+                <min_depth>0.001</min_depth>
+              </ode>
+            </contact>
+            <friction>
+              <ode>
+                <mu>30</mu>
+                <mu2>30</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <collision name='mobile_base_fixed_joint_lump__kinect_link_collision_2'>
+          <pose>-0.25008 -0.654839 1.89535 1.57159 1.57079 3.14159</pose>
+          <geometry>
+            <box>
+              <size>0 0 0</size>
+            </box>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='mobile_base_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/duygiang/doosan_ws/src/doosan-robot/dsr_description/meshes/base_mobile/base_doosan.STL</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <visual name='mobile_base_fixed_joint_lump__base_0_visual_1'>
+          <pose>-0.15008 -0.004839 0.81535 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>/home/duygiang/doosan_ws/src/doosan-robot/dsr_description/meshes/m0609_blue/MF0609_0_0.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <visual name='mobile_base_fixed_joint_lump__kinect_link_visual_2'>
+          <pose>-0.25008 -0.654839 1.89535 1.57159 1.57079 3.14159</pose>
+          <geometry>
+            <box>
+              <size>0.005 0.005 0.005</size>
+            </box>
+          </geometry>
+        </visual>
+        <self_collide>1</self_collide>
+        <sensor name='camera' type='depth'>
+          <always_on>1</always_on>
+          <visualize>1</visualize>
+          <update_rate>10</update_rate>
+          <camera>
+            <horizontal_fov>1.047</horizontal_fov>
+            <image>
+              <format>R8G8B8</format>
+              <width>640</width>
+              <height>480</height>
+            </image>
+            <clip>
+              <near>0.1</near>
+              <far>100</far>
+            </clip>
+          </camera>
+          <plugin name='camera_controller' filename='libgazebo_ros_openni_kinect.so'>
+            <alwaysOn>1</alwaysOn>
+            <updateRate>10</updateRate>
+            <imageTopicName>kinect</imageTopicName>
+            <cameraInfoTopicName>camera/camera_info</cameraInfoTopicName>
+            <depthImageTopicName>camera/depth/image_raw</depthImageTopicName>
+            <depthImageCameraInfoTopicName>camera/depth/camera_info</depthImageCameraInfoTopicName>
+            <pointCloudTopicName>camera/depth/points</pointCloudTopicName>
+            <frameName>camera_link_optical</frameName>
+            <pointCloudCutoff>0.4</pointCloudCutoff>
+            <hackBaseline>0.07</hackBaseline>
+            <distortion_k1>0.0</distortion_k1>
+            <distortion_k2>0.0</distortion_k2>
+            <distortion_k3>0.0</distortion_k3>
+            <distortion_t1>0.0</distortion_t1>
+            <distortion_t2>0.0</distortion_t2>
+            <CxPrime>0.0</CxPrime>
+            <Cx>0.0</Cx>
+            <Cy>0.0</Cy>
+            <focallength>0.0</focallength>
+            <robotNamespace>/dsr01/</robotNamespace>
+          </plugin>
+          <pose>-0.25008 -0.654839 1.89535 3.14159 1.57079 -1.57159</pose>
+        </sensor>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='joint1' type='revolute'>
+        <pose relative_to='mobile_base'>-0.15008 -0.004839 0.91535 0 -0 0</pose>
+        <parent>mobile_base</parent>
+        <child>link1</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-6.2832</lower>
+            <upper>6.2832</upper>
+            <effort>163</effort>
+            <velocity>2.618</velocity>
+          </limit>
+          <dynamics>
+            <damping>0</damping>
+            <friction>0</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='link1'>
+        <pose relative_to='joint1'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>7.2e-05 0.036227 -0.003417 0 -0 0</pose>
+          <mass>5.02</mass>
+          <inertia>
+            <ixx>0.026195</ixx>
+            <ixy>2.3904e-05</ixy>
+            <ixz>-1.3319e-05</ixz>
+            <iyy>0.016899</iyy>
+            <iyz>-0.00071987</iyz>
+            <izz>0.022944</izz>
+          </inertia>
+        </inertial>
+        <collision name='link1_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>/home/duygiang/doosan_ws/src/doosan-robot/dsr_description/meshes/m0609_collision/MF0609_1_0.dae</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode>
+                <kp>1e+06</kp>
+                <kd>100</kd>
+                <max_vel>1</max_vel>
+                <min_depth>0.001</min_depth>
+              </ode>
+            </contact>
+            <friction>
+              <ode>
+                <mu>30</mu>
+                <mu2>30</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='link1_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>/home/duygiang/doosan_ws/src/doosan-robot/dsr_description/meshes/m0609_blue/MF0609_1_0.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>1</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='joint2' type='revolute'>
+        <pose relative_to='link1'>0 0.0062 0 3.14159 -1.57059 1.57059</pose>
+        <parent>link1</parent>
+        <child>link2</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-6.2832</lower>
+            <upper>6.2832</upper>
+            <effort>163</effort>
+            <velocity>2.618</velocity>
+          </limit>
+          <dynamics>
+            <damping>0</damping>
+            <friction>0</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='link2'>
+        <pose relative_to='joint2'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0.20447 2.6e-05 0.16005 0 -0 0</pose>
+          <mass>8.04</mass>
+          <inertia>
+            <ixx>0.026743</ixx>
+            <ixy>-0.00019461</ixy>
+            <ixz>-0.00058734</ixz>
+            <iyy>0.30084</iyy>
+            <iyz>-6.7892e-06</iyz>
+            <izz>0.29898</izz>
+          </inertia>
+        </inertial>
+        <collision name='link2_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>/home/duygiang/doosan_ws/src/doosan-robot/dsr_description/meshes/m0609_collision/MF0609_2_0.dae</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode>
+                <kp>1e+06</kp>
+                <kd>100</kd>
+                <max_vel>1</max_vel>
+                <min_depth>0.001</min_depth>
+              </ode>
+            </contact>
+            <friction>
+              <ode>
+                <mu>30</mu>
+                <mu2>30</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <collision name='link2_collision_1'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>/home/duygiang/doosan_ws/src/doosan-robot/dsr_description/meshes/m0609_collision/MF0609_2_1.dae</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode>
+                <kp>1e+06</kp>
+                <kd>100</kd>
+                <max_vel>1</max_vel>
+                <min_depth>0.001</min_depth>
+              </ode>
+            </contact>
+            <friction>
+              <ode>
+                <mu>30</mu>
+                <mu2>30</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <collision name='link2_collision_2'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>/home/duygiang/doosan_ws/src/doosan-robot/dsr_description/meshes/m0609_collision/MF0609_2_2.dae</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode>
+                <kp>1e+06</kp>
+                <kd>100</kd>
+                <max_vel>1</max_vel>
+                <min_depth>0.001</min_depth>
+              </ode>
+            </contact>
+            <friction>
+              <ode>
+                <mu>30</mu>
+                <mu2>30</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='link2_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>/home/duygiang/doosan_ws/src/doosan-robot/dsr_description/meshes/m0609_blue/MF0609_2_0.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <visual name='link2_visual_1'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>/home/duygiang/doosan_ws/src/doosan-robot/dsr_description/meshes/m0609_blue/MF0609_2_1.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <visual name='link2_visual_2'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>/home/duygiang/doosan_ws/src/doosan-robot/dsr_description/meshes/m0609_blue/MF0609_2_2.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>1</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='joint3' type='revolute'>
+        <pose relative_to='link2'>0.411 0 0 0 -0 1.571</pose>
+        <parent>link2</parent>
+        <child>link3</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-2.618</lower>
+            <upper>2.618</upper>
+            <effort>96</effort>
+            <velocity>3.1416</velocity>
+          </limit>
+          <dynamics>
+            <damping>0</damping>
+            <friction>0</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='link3'>
+        <pose relative_to='joint3'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>-2.2e-05 -0.006867 0.043445 0 -0 0</pose>
+          <mass>3.6</mass>
+          <inertia>
+            <ixx>0.018342</ixx>
+            <ixy>1.1302e-05</ixy>
+            <ixz>-4.5308e-06</ixz>
+            <iyy>0.018239</iyy>
+            <iyz>-0.00099247</iyz>
+            <izz>0.01326</izz>
+          </inertia>
+        </inertial>
+        <collision name='link3_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>/home/duygiang/doosan_ws/src/doosan-robot/dsr_description/meshes/m0609_collision/MF0609_3_0.dae</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode>
+                <kp>1e+06</kp>
+                <kd>100</kd>
+                <max_vel>1</max_vel>
+                <min_depth>0.001</min_depth>
+              </ode>
+            </contact>
+            <friction>
+              <ode>
+                <mu>30</mu>
+                <mu2>30</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='link3_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>/home/duygiang/doosan_ws/src/doosan-robot/dsr_description/meshes/m0609_blue/MF0609_3_0.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>1</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='joint4' type='revolute'>
+        <pose relative_to='link3'>0 -0.368 0 1.571 -0 0</pose>
+        <parent>link3</parent>
+        <child>link4</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-6.2832</lower>
+            <upper>6.2832</upper>
+            <effort>50</effort>
+            <velocity>3.927</velocity>
+          </limit>
+          <dynamics>
+            <damping>0</damping>
+            <friction>0</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='link4'>
+        <pose relative_to='joint4'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>4e-05 0.097079 -0.10981 0 -0 0</pose>
+          <mass>3.57</mass>
+          <inertia>
+            <ixx>0.08035</ixx>
+            <ixy>-4.6119e-06</ixy>
+            <ixz>-8.1798e-06</ixz>
+            <iyy>0.066005</iyy>
+            <iyz>-0.028996</iyz>
+            <izz>0.029763</izz>
+          </inertia>
+        </inertial>
+        <collision name='link4_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>/home/duygiang/doosan_ws/src/doosan-robot/dsr_description/meshes/m0609_collision/MF0609_4_0.dae</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode>
+                <kp>1e+06</kp>
+                <kd>100</kd>
+                <max_vel>1</max_vel>
+                <min_depth>0.001</min_depth>
+              </ode>
+            </contact>
+            <friction>
+              <ode>
+                <mu>30</mu>
+                <mu2>30</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <collision name='link4_collision_1'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>/home/duygiang/doosan_ws/src/doosan-robot/dsr_description/meshes/m0609_collision/MF0609_4_1.dae</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode>
+                <kp>1e+06</kp>
+                <kd>100</kd>
+                <max_vel>1</max_vel>
+                <min_depth>0.001</min_depth>
+              </ode>
+            </contact>
+            <friction>
+              <ode>
+                <mu>30</mu>
+                <mu2>30</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='link4_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>/home/duygiang/doosan_ws/src/doosan-robot/dsr_description/meshes/m0609_blue/MF0609_4_0.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <visual name='link4_visual_1'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>/home/duygiang/doosan_ws/src/doosan-robot/dsr_description/meshes/m0609_blue/MF0609_4_1.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>1</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='joint5' type='revolute'>
+        <pose relative_to='link4'>0 0 0 -1.571 0 0</pose>
+        <parent>link4</parent>
+        <child>link5</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-6.2832</lower>
+            <upper>6.2832</upper>
+            <effort>50</effort>
+            <velocity>3.927</velocity>
+          </limit>
+          <dynamics>
+            <damping>0</damping>
+            <friction>0</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='link5'>
+        <pose relative_to='joint5'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>-6.8e-05 0.003827 0.031969 0 -0 0</pose>
+          <mass>2.83</mass>
+          <inertia>
+            <ixx>0.014275</ixx>
+            <ixy>2.2026e-05</ixy>
+            <ixz>3.3017e-06</ixz>
+            <iyy>0.012569</iyy>
+            <iyz>0.00045077</iyz>
+            <izz>0.0085318</izz>
+          </inertia>
+        </inertial>
+        <collision name='link5_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>/home/duygiang/doosan_ws/src/doosan-robot/dsr_description/meshes/m0609_collision/MF0609_5_0.dae</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode>
+                <kp>1e+06</kp>
+                <kd>100</kd>
+                <max_vel>1</max_vel>
+                <min_depth>0.001</min_depth>
+              </ode>
+            </contact>
+            <friction>
+              <ode>
+                <mu>30</mu>
+                <mu2>30</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='link5_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>/home/duygiang/doosan_ws/src/doosan-robot/dsr_description/meshes/m0609_blue/MF0609_5_0.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>1</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='joint6' type='revolute'>
+        <pose relative_to='link5'>0 -0.121 0 1.571 -0 0</pose>
+        <parent>link5</parent>
+        <child>link6</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-6.2832</lower>
+            <upper>6.2832</upper>
+            <effort>50</effort>
+            <velocity>3.927</velocity>
+          </limit>
+          <dynamics>
+            <damping>0</damping>
+            <friction>0</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='link6'>
+        <pose relative_to='joint6'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>-3e-05 -4.5e-05 -0.0539 0 -0 0</pose>
+          <mass>1.16</mass>
+          <inertia>
+            <ixx>0.0080226</ixx>
+            <ixy>1.371e-06</ixy>
+            <ixz>6.3578e-06</ixz>
+            <iyy>0.0053992</iyy>
+            <iyz>7.4676e-06</iyz>
+            <izz>0.0053912</izz>
+          </inertia>
+        </inertial>
+        <collision name='link6_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>/home/duygiang/doosan_ws/src/doosan-robot/dsr_description/meshes/m0609_collision/MF0609_6_0.dae</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode>
+                <kp>1e+06</kp>
+                <kd>100</kd>
+                <max_vel>1</max_vel>
+                <min_depth>0.001</min_depth>
+              </ode>
+            </contact>
+            <friction>
+              <ode>
+                <mu>30</mu>
+                <mu2>30</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='link6_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>/home/duygiang/doosan_ws/src/doosan-robot/dsr_description/meshes/m0609_blue/MF0609_6_0.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>1</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <static>0</static>
+      <plugin name='gazebo_ros_control' filename='libgazebo_ros_control.so'>
+        <robotNamespace>/dsr01</robotNamespace>
+        <controlPeriod>0.001</controlPeriod>
+        <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+        <legacyModeNS>1</legacyModeNS>
+      </plugin>
+      <pose>0 0 0 0 -0 0</pose>
+    </model>
+    <model name='cabin'>
+      <pose>-0.874459 -1.07704 0 1.57 -0 1.57</pose>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>model://cabin/meshes/cabin1.STL</uri>
+            </mesh>
+            <surface>
+              <friction>
+                <ode>
+                  <mu>1.2</mu>
+                  <mu2>1.2</mu2>
+                </ode>
+              </friction>
+            </surface>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>model://cabin/meshes/cabin1.STL</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+    </model>
+    <state world_name='default'>
+      <sim_time>16 377000000</sim_time>
+      <real_time>167 383051665</real_time>
+      <wall_time>1712567623 961638195</wall_time>
+      <iterations>16377</iterations>
+      <model name='cabin'>
+        <pose>-0.874459 -1.07704 0 1.57 -0 1.57</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>-0.874459 -1.07704 0 1.57 -0 1.57</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='dsr01'>
+        <pose>0.000101 0.000539 0.033461 -3.7e-05 -0.000229 -0.000829</pose>
+        <scale>1 1 1</scale>
+        <link name='link1'>
+          <pose>-0.150272 -0.004181 0.948342 0.000173 -0.00039 -1.57109</pose>
+          <velocity>0.340474 0.523448 -0.253102 -0.976264 1.02283 -0.01706</velocity>
+          <acceleration>1282.88 1022.16 352.717 1.45937 -0.50605 -2.637</acceleration>
+          <wrench>6440.04 5131.24 1770.64 0 -0 0</wrench>
+        </link>
+        <link name='link2'>
+          <pose>-0.144085 -0.004196 0.948053 -1.78943 -1.56841 -1.35266</pose>
+          <velocity>0.101083 0.500316 -0.217477 1.37242 0.788055 -0.006595</velocity>
+          <acceleration>1359.12 73.538 -19.9212 -1.92645 1.23894 -0.961764</acceleration>
+          <wrench>10927.3 591.246 -160.166 0 -0 0</wrench>
+        </link>
+        <link name='link3'>
+          <pose>-0.143875 -0.005141 1.35895 1.78721 1.56811 1.78668</pose>
+          <velocity>0.324508 -0.090012 -0.212161 0.840701 0.775211 0.034564</velocity>
+          <acceleration>1637.99 198.491 199.788 1.92816 -0.744273 1.37769</acceleration>
+          <wrench>5896.75 714.566 719.238 0 -0 0</wrench>
+        </link>
+        <link name='link4'>
+          <pose>-0.144012 -0.373157 1.358 -2.95544 1.56816 1.75629</pose>
+          <velocity>0.304395 -0.098698 -0.517186 0.832528 0.157507 0.026536</velocity>
+          <acceleration>508.765 -48.249 20.9157 1.26289 1.45297 -2.07581</acceleration>
+          <wrench>1816.29 -172.249 74.6692 0 -0 0</wrench>
+        </link>
+        <link name='link5'>
+          <pose>-0.144008 -0.373159 1.35799 1.57128 -0.001184 1.57033</pose>
+          <velocity>0.301773 -0.11182 -0.515906 0.832322 0.156957 0.030294</velocity>
+          <acceleration>40.3595 205.539 -25.8485 1.24778 1.20807 0.470122</acceleration>
+          <wrench>114.218 581.674 -73.1512 0 -0 0</wrench>
+        </link>
+        <link name='link6'>
+          <pose>-0.144063 -0.373015 1.23699 -3.14091 -0.00119 1.57023</pose>
+          <velocity>0.281439 -0.017566 -0.515816 0.827548 0.161741 0.033111</velocity>
+          <acceleration>-5.95049 371.403 -4.79629 -3.10595 -1.24022 1.24492</acceleration>
+          <wrench>-6.90257 430.828 -5.56369 0 -0 0</wrench>
+        </link>
+        <link name='mobile_base'>
+          <pose>0.000101 0.000539 0.033461 -3.7e-05 -0.000229 -0.000829</pose>
+          <velocity>-0.06838 -0.073141 -0.441102 -0.746803 0.772358 0.115437</velocity>
+          <acceleration>833.45 561.129 401.21 -0.580221 1.4255 0.298125</acceleration>
+          <wrench>5835.82 3929.03 2809.27 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='ground_plane'>
+        <pose>0 0 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>0 0 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <light name='sun'>
+        <pose>0 0 10 0 -0 0</pose>
+      </light>
+    </state>
+  </world>
+</sdf>

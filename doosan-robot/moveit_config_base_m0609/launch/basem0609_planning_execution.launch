@@ -1,0 +1,26 @@
+<launch>
+
+    <include file="$(find moveit_config_base_m0609)/launch/planning_context.launch" >
+      <arg name="load_robot_description" value="true" />
+    </include>
+  
+
+    
+    
+    <include file = "$(find moveit_config_base_m0609)/launch/spawn_robot.launch" />
+
+
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+      <param name="/use_gui" value="false"/>
+      <rosparam param="/source_list">[/base_m0609/joint_states]</rosparam>
+    </node>
+  
+    <include file="$(find moveit_config_base_m0609)/launch/move_group.launch">
+      <arg name="publish_monitored_planning_scene" value="true" />
+    </include>
+  
+    <include file="$(find moveit_config_base_m0609)/launch/moveit_rviz.launch">
+      <arg name="rviz_config" value="$(find moveit_config_base_m0609)/launch/moveit.rviz"/>
+    </include>
+  
+  </launch>
