@@ -2,7 +2,7 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="m0609" >
 
   <xacro:arg name="color"   default="white"/>
-  <xacro:arg name="gripper" default="robotiq_2f"/>
+  <xacro:arg name="gripper" default="none"/>
 
 
   <xacro:property name="cr" value="$(arg color)"/>
@@ -22,14 +22,14 @@
 
 
 
-  <!-- <xacro:if value="${gr == 'robotiq_2f'}"> -->
+  <xacro:if value="${gr == 'robotiq_2f'}">
      <xacro:include filename="$(find dsr_description)/xacro/robotiq_2f.urdf.xacro" />
      
-  <!-- </xacro:if> -->
+  </xacro:if>
 
   <!-- World fixed joint-->
   <joint name="world_fixed" type="fixed">
-    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <origin xyz="0 0 0.05" rpy="0 0 0"/>
     <parent link="world"/>
     <child link="mobile_base"/>
     <!-- <child link="base_0"/> -->
@@ -67,7 +67,7 @@
 		  <parent link="mobile_base"/>
 		  <child link="base_0"/>
         <origin
-      xyz="-0.15008 -0.0048392 0.81535"
+      xyz="-0.15008 -0.0048392 0.800"
       rpy="0 0 0" />
     <axis
       xyz="0 0 0" />

@@ -2,7 +2,7 @@
   <!-- By default we do not overwrite the URDF. Change the following to true to change the default behavior -->
   <arg name="load_robot_description" default="false"/>
   <arg name="color" default="white"/>
-  <arg name="gripper" default="robotiq_2f"/>
+  <arg name="gripper" default="none"/>
   <arg name="ns" default="dsr"/>
 
   <!-- The name of the parameter under which the URDF is loaded -->

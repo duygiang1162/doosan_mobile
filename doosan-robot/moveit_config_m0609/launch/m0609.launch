@@ -4,7 +4,7 @@
   <arg name="db" default="false" />
   <!-- Allow user to specify database location -->
   <arg name="db_path" default="$(find moveit_config_m0609)/default_warehouse_mongo_db" />
-  <arg name="gripper" default="robotiq_2f"/>
+  <arg name="gripper" default="none"/>
   <arg name="color" default="white"/>
   <arg name="ns" default="dsr"/>
   <arg name="fake_execution" default="true"/>
