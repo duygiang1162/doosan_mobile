@@ -1,4 +1,3 @@
-
 dsr_joint_position_controller:
   type: position_controllers/JointGroupPositionController
   joints:
@@ -8,7 +7,6 @@ dsr_joint_position_controller:
     - joint4
     - joint5
     - joint6
-    - robotiq_85_left_knuckle_joint
   publish_rate: 20
 dsr_joint_trajectory_controller:
   type: position_controllers/JointTrajectoryController
@@ -19,7 +17,6 @@ dsr_joint_trajectory_controller:
     - joint4
     - joint5
     - joint6
-    - robotiq_85_left_knuckle_joint
   publish_rate: 20
 
 dsr_joint_publisher:
